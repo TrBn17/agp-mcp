@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGY Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Clean Single-Line Top Header -->
+    <header class="header">
+      <div class="header-left">
+        <span id="liveDot" class="live-dot connecting" title="Trạng thái kết nối trực tiếp"></span>
+        <span class="brand-name">AGY Monitor</span>
+        <div class="header-metrics" aria-label="Thông số nhanh">
+          <span class="metric-chip"><strong id="kpiWorking">0</strong> đang chạy · <span id="kpiOnline">0</span> đang mở</span>
+          <span class="metric-sep">·</span>
+          <span class="metric-chip"><strong id="kpiTokens">0</strong> tokens (<span id="kpiCache">0%</span> cache)</span>
+          <span class="metric-sep">·</span>
+          <span class="metric-chip"><strong id="kpiCost">$0.00</strong> / 24h</span>
+          <span id="kpiLeasesWrap" class="metric-chip warn hidden">· <strong id="kpiLeases">0</strong> khóa tệp</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="search-box">
+          <svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" />
+            <path d="M13.5 13.5L17 17" stroke-linecap="round" />
+          </svg>
+          <input id="searchInput" type="search" placeholder="Tìm AI, task, tin nhắn..." autocomplete="off" />
+        </div>
+        <button id="btnThemeToggle" class="icon-btn" type="button" title="Đổi giao diện Sáng / Tối">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">Tối</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main 2-Column Workspace (Sidebar + Active Canvas) -->
+    <div class="workspace">
+      <!-- Left Sidebar: Always-visible AIs & Conversations -->
+      <aside class="sidebar" aria-label="Danh sách AI và Hội thoại">
+        <!-- Quick Primary Navigation -->
+        <nav class="side-nav">
+          <button id="navOverview" class="side-nav-btn active" type="button">
+            <span>Tổng quan AI</span>
+            <span id="cntActiveNav" class="side-count">0</span>
+          </button>
+          <button id="navAllChat" class="side-nav-btn" type="button">
+            <span>Tất cả tin nhắn AI</span>
+            <span id="cntMsgNav" class="side-count">0</span>
+            <span id="cntPendingNav" class="side-alert hidden">0</span>
+          </button>
+          <button id="navTeams" class="side-nav-btn" type="button">
+            <span>Agent Teams</span>
+            <span id="cntTeamNav" class="side-count">0</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-scroll">
+          <!-- Section 1: Active AIs right now -->
+          <div class="side-section">
+            <div class="side-sec-head">
+              <span>AI đang hoạt động</span>
+              <button id="btnShowHistory" class="link-btn" type="button">Xem lịch sử</button>
+            </div>
+            <div id="sideAgentsList" class="side-list">
+              <div class="side-empty">Đang tải...</div>
+            </div>
+          </div>
+
+          <!-- Section 2: Recent AI-to-AI Conversations -->
+          <div class="side-section">
+            <div class="side-sec-head">
+              <span>Hội thoại AI ↔ AI</span>
+              <span id="sideConvCount" class="side-muted"></span>
+            </div>
+            <div id="sideThreadsList" class="side-list">
+              <div class="side-empty">Chưa có trao đổi nào</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Right Canvas -->
+      <main class="main">
+        <!-- ==============================================================
+             MODE A: OVERVIEW (ALL ACTIVE / HISTORY AI CARDS)
+        =============================================================== -->
+        <section id="paneOverview" class="pane active">
+          <div class="pane-head">
+            <div>
+              <h1 id="overviewHeading">AI đang hoạt động</h1>
+              <p class="pane-sub">Bấm vào bất kỳ AI nào để xem chi tiết, đổi tên gợi nhớ hoặc nhắn tin trực tiếp.</p>
+            </div>
+            <div class="segmented" role="group" aria-label="Bộ lọc trạng thái">
+              <button id="segActive" class="seg-btn active" type="button">Đang mở (<span id="segCntActive">0</span>)</button>
+              <button id="segWorking" class="seg-btn" type="button">Đang chạy (<span id="segCntWorking">0</span>)</button>
+              <button id="segAll" class="seg-btn" type="button">Tất cả (<span id="segCntAll">0</span>)</button>
+            </div>
+          </div>
+
+          <div id="projectBar" class="project-bar hidden"></div>
+
+          <div id="agentsGrid" class="agents-grid">
+            <div class="empty-state">Đang tải danh sách AI Agent...</div>
+          </div>
+        </section>
+
+        <!-- ==============================================================
+             MODE B: SINGLE AGENT LIVE DETAIL (CLEAN FULL VIEW, NOT CRAMPED DRAWER)
+        =============================================================== -->
+        <section id="paneAgent" class="pane">
+          <div class="agent-detail-head">
+            <div class="agent-detail-id">
+              <button id="btnBackOverview" class="btn-subtle" type="button">← Quay lại</button>
+              <div id="agAvatar" class="avatar avatar-lg">AI</div>
+              <div class="agent-detail-titles">
+                <div class="agent-title-row">
+                  <h1 id="agName">Tên AI</h1>
+                  <span id="agStatusBadge" class="pill">Đang chờ</span>
+                  <button id="btnToggleRename" class="btn-subtle btn-sm" type="button">Đổi tên</button>
+                </div>
+                <div id="agTaskLine" class="agent-task-line"></div>
+              </div>
+            </div>
+            <div id="agParentWrap"></div>
+          </div>
+
+          <!-- Inline Clean Rename Form -->
+          <form id="renameForm" class="inline-bar hidden">
+            <input id="rnName" type="text" required placeholder="Tên gợi nhớ mới (vd: AI Toán - Nhánh Src)" />
+            <input id="rnRole" type="text" placeholder="Vai trò (tùy chọn)" style="max-width:220px" />
+            <button class="btn-primary" type="submit">Lưu tên</button>
+            <button id="btnCancelRename" class="btn-subtle" type="button">Hủy</button>
+          </form>
+
+          <!-- Clean 3-KPI strip for this AI -->
+          <div id="agStatsRow" class="detail-stats"></div>
+
+          <!-- Sub-tabs inside Agent Detail -->
+          <div class="underline-tabs">
+            <button class="u-tab active" data-ag-tab="overview" type="button">Hoạt động &amp; Kết quả</button>
+            <button class="u-tab" data-ag-tab="chat" type="button">Tin nhắn liên quan <span id="agTabChatCnt" class="tab-n">0</span></button>
+            <button class="u-tab" data-ag-tab="subagents" type="button">Subagents <span id="agTabSubCnt" class="tab-n">0</span></button>
+            <button class="u-tab" data-ag-tab="steps" type="button">Lịch sử bước <span id="agTabStepsCnt" class="tab-n">0</span></button>
+          </div>
+
+          <div id="agBody" class="detail-body"></div>
+
+          <!-- Direct Message Bar at Bottom -->
+          <form id="agPingForm" class="composer-bar">
+            <input id="agPingInput" type="text" required placeholder="Gửi tin nhắn trực tiếp cho AI này..." autocomplete="off" />
+            <button class="btn-primary" type="submit">Gửi tin</button>
+            <span id="agPingStatus" class="form-note"></span>
+          </form>
+        </section>
+
+        <!-- ==============================================================
+             MODE C: CLEAN CONVERSATION / CHAT VIEW (ALL FEED OR SPECIFIC THREAD)
+        =============================================================== -->
+        <section id="paneChat" class="pane">
+          <div class="chat-topbar">
+            <div class="chat-topbar-left">
+              <h1 id="chatHeading">Tất cả tin nhắn AI</h1>
+              <div id="chatParticipants" class="chat-parts"></div>
+            </div>
+            <div class="chat-topbar-right">
+              <label class="check-label" title="Ẩn thông báo tự động khi AI hoàn tất lượt và chuyển sang ngủ">
+                <input id="chkHideNoise" type="checkbox" checked />
+                <span>Ẩn tin tự động</span>
+              </label>
+              <button id="btnSortChat" class="btn-subtle btn-sm" type="button">Cũ → Mới</button>
+              <button id="btnToggleMap" class="btn-subtle btn-sm" type="button">Sơ đồ kết nối</button>
+            </div>
+          </div>
+
+          <!-- Optional Collapsible Connection Summary (Hidden by default so chat is spacious!) -->
+          <div id="mapDrawer" class="map-panel hidden">
+            <div class="map-panel-head">
+              <span class="map-title">Các cặp AI đang trao đổi với nhau</span>
+              <button id="btnCloseMap" class="link-btn" type="button">Đóng</button>
+            </div>
+            <div id="mapPairs" class="map-pairs"></div>
+          </div>
+
+          <!-- Spacious Readable Chat Stream -->
+          <div id="chatMessages" class="chat-messages">
+            <div class="empty-state">Chưa có tin nhắn nào.</div>
+          </div>
+
+          <!-- Active File Leases notice (only when leases exist) -->
+          <div id="leasesStrip" class="leases-banner hidden"></div>
+
+          <!-- Simple, Clean Composer -->
+          <form id="chatComposer" class="composer-bar">
+            <select id="cmpTo" class="cmp-select" aria-label="Chọn AI nhận tin"></select>
+            <input id="cmpText" type="text" required placeholder="Nhập tin nhắn gửi cho AI..." autocomplete="off" />
+            <button id="btnCmpOpts" class="btn-subtle" type="button" title="Loại tin & mức ưu tiên">⚙</button>
+            <button class="btn-primary" type="submit">Gửi</button>
+            <div id="cmpAdvanced" class="cmp-advanced hidden">
+              <label>Loại:
+                <select id="cmpType">
+                  <option value="chat.note">Trao đổi</option>
+                  <option value="task.request">Giao việc</option>
+                  <option value="review.request">Nhờ review</option>
+                  <option value="sync.git_handoff">Bàn giao Git</option>
+                </select>
+              </label>
+              <label>Ưu tiên:
+                <select id="cmpPrio">
+                  <option value="normal">Bình thường</option>
+                  <option value="high">Cao</option>
+                  <option value="urgent">Khẩn cấp</option>
+                </select>
+              </label>
+            </div>
+            <span id="cmpStatus" class="form-note"></span>
+          </form>
+        </section>
+
+        <!-- ==============================================================
+             MODE D: AGENT TEAMS & SHARED TASKS
+        =============================================================== -->
+        <section id="paneTeams" class="pane">
+          <div class="pane-head">
+            <div class="team-head-pick">
+              <select id="teamSelect" class="select-lg" aria-label="Chọn Team"></select>
+              <button id="btnOpenTeamChat" class="btn-subtle hidden" type="button">Mở hội thoại Team →</button>
+            </div>
+            <div class="head-btns">
+              <button id="btnNewTeam" class="btn-subtle" type="button">+ Tạo Team</button>
+              <button id="btnJoinMember" class="btn-subtle" type="button">+ Gắn AI đang chạy</button>
+              <button id="btnSpawnMember" class="btn-primary" type="button">+ Gọi Teammate</button>
+            </div>
+          </div>
+
+          <form id="newTeamForm" class="inline-bar hidden">
+            <input id="ntName" type="text" required placeholder="Tên team (vd: edu-feature)" />
+            <input id="ntDesc" type="text" placeholder="Mô tả mục tiêu team..." style="flex:2" />
+            <button class="btn-primary" type="submit">Tạo</button>
+          </form>
+
+          <form id="joinForm" class="inline-bar hidden">
+            <select id="jnSession" required aria-label="Chọn phiên AI đang chạy" style="flex:1.8"></select>
+            <input id="jnName" type="text" required placeholder="Tên ngắn (vd: harness-lead)" style="flex:1" />
+            <input id="jnRole" type="text" placeholder="Vai trò (vd: architect)" style="flex:1" />
+            <button class="btn-primary" type="submit">Gắn vào Team</button>
+          </form>
+
+          <form id="spawnForm" class="inline-bar hidden">
+            <input id="spName" type="text" required placeholder="Tên ngắn (vd: backend)" />
+            <input id="spRole" type="text" required placeholder="Vai trò (vd: backend-dev)" />
+            <input id="spPrompt" type="text" required placeholder="Nhiệm vụ cụ thể cho teammate..." style="flex:2.2" />
+            <button class="btn-primary" type="submit">Khởi chạy</button>
+          </form>
+
+          <div id="teamNotice" class="form-note" style="margin-bottom:10px"></div>
+
+          <div class="teams-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Thành viên</h2>
+                <span id="rosterCount" class="muted"></span>
+              </div>
+              <div id="teamRoster" class="panel-list"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Công việc chung</h2>
+                <span id="tasksCount" class="muted"></span>
+              </div>
+              <form id="addTaskForm" class="task-form">
+                <input id="tkTitle" type="text" required placeholder="Thêm công việc mới..." />
+                <select id="tkOwner" aria-label="Phụ trách"><option value="">Chưa giao</option></select>
+                <input id="tkBlocked" type="text" placeholder="Chờ (T1)" style="width:86px" />
+                <button class="btn-subtle" type="submit">+ Thêm</button>
+              </form>
+              <div id="teamTasks" class="panel-list"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

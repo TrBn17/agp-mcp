@@ -1,0 +1,74 @@
+{
+  "name": "io.github.trbn17/agp-mcp",
+  "displayName": "AGP MCP Server",
+  "version": "2.1.0",
+  "description": "Serverless inter-agent MCP mesh & Agent Teams with 4-tool Code Mode, MCP Skills extension, structural valid-JSON truncation, workspace file leases with monotonic fencing tokens, SHA-256 artifacts, and zero-token reactive wakeup.",
+  "repository": "https://github.com/TrBn17/agp-mcp",
+  "protocolVersions": [
+    "2026-07-28",
+    "2025-11-25",
+    "2025-06-18",
+    "2025-03-26",
+    "2024-11-05"
+  ],
+  "packages": [
+    {
+      "registry": "npm",
+      "name": "agp-mcp",
+      "version": "2.1.0",
+      "npx": "npx -y github:TrBn17/agp-mcp",
+      "codemode": "npx -y github:TrBn17/agp-mcp --codemode"
+    },
+    {
+      "registry": "pypi",
+      "name": "agp-mcp",
+      "version": "2.1.0"
+    }
+  ],
+  "transports": [
+    {
+      "type": "stdio",
+      "default": true,
+      "command": "npx",
+      "args": ["-y", "github:TrBn17/agp-mcp"],
+      "codemodeArgs": ["-y", "github:TrBn17/agp-mcp", "--codemode"],
+      "requiresDaemon": false
+    },
+    {
+      "type": "streamable-http",
+      "default": false,
+      "url": "http://127.0.0.1:47821/mcp",
+      "codemodeUrl": "http://127.0.0.1:47821/mcp?codemode=true",
+      "note": "Optional — enabled when running `npx -y github:TrBn17/agp-mcp monitor` to view the Live Monitor UI or expose the A2A v1.0 gateway."
+    }
+  ],
+  "capabilities": {
+    "directModeTools": 25,
+    "codeModeTools": 4,
+    "skills": 2,
+    "resources": 6,
+    "resourceTemplates": 5,
+    "prompts": 6,
+    "logging": true,
+    "completions": true,
+    "cancellation": true,
+    "truncation": {
+      "enabledByDefault": true,
+      "maxTokens": 6000,
+      "marker": "--- TRUNCATED ---",
+      "optOutParam": "truncate: false",
+      "optOutQuery": "truncateToolResult=false"
+    },
+    "extensions": [
+      "io.modelcontextprotocol/tasks",
+      "io.modelcontextprotocol/skills"
+    ]
+  },
+  "runtime": {
+    "nodeMinVersion": "18.0.0",
+    "pythonMinVersion": "3.11",
+    "externalDependencies": 0
+  },
+  "stateDirectory": "~/.gemini/agp",
+  "optionalUiCommand": "npx -y github:TrBn17/agp-mcp monitor"
+}

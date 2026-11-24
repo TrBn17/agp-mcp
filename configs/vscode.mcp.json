@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "agp-broker": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "github:TrBn17/agp-mcp"
+      ]
+    }
+  }
+}

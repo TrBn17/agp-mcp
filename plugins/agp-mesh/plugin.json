@@ -1,0 +1,6 @@
+{
+  "name": "agp-mesh",
+  "version": "2.1.0",
+  "displayName": "AGP Mesh v2.1 Standard Serverless MCP & Optional Live Monitor",
+  "description": "Serverless zero-dependency standard MCP suite (23 tools, resources, templates, prompts, tasks) for bidirectional inter-AGY collaboration, Claude-style Agent Teams, zero-token reactive wakeup, workspace file leases, and optional HTML monitoring UI."
+}

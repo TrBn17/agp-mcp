@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "agp-broker": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "github:TrBn17/agp-mcp",
+        "--codemode"
+      ]
+    }
+  }
+}

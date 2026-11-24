@@ -1,0 +1,60 @@
+{
+  "name": "agp-mcp",
+  "version": "2.1.0",
+  "description": "Serverless inter-agent MCP mesh & Agent Teams with 4-tool Code Mode, MCP Skills extension, zero-token reactive wakeup, and optional Live Monitor UI.",
+  "type": "module",
+  "license": "MIT",
+  "author": "TrBn17",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TrBn17/agp-mcp.git"
+  },
+  "homepage": "https://github.com/TrBn17/agp-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/TrBn17/agp-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "agp-mcp": "./bin/agp-mcp.mjs",
+    "agp-monitor": "./bin/agp-monitor.mjs",
+    "agp-listen": "./bin/agp-listen.mjs"
+  },
+  "files": [
+    "bin/",
+    "agp/",
+    "web/",
+    "plugins/",
+    "configs/",
+    "scripts/",
+    "docs/",
+    "server.json",
+    "pyproject.toml",
+    "README.md",
+    "LICENSE",
+    "!**/__pycache__/**",
+    "!**/*.pyc",
+    "!**/*.pyo"
+  ],
+  "scripts": {
+    "start": "node ./bin/agp-mcp.mjs",
+    "codemode": "node ./bin/agp-mcp.mjs --codemode",
+    "monitor": "node ./bin/agp-monitor.mjs",
+    "doctor": "node ./bin/agp-mcp.mjs doctor",
+    "test": "python -m unittest discover -s tests -v"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "agp",
+    "a2a",
+    "multi-agent",
+    "agent-teams",
+    "codemode",
+    "antigravity",
+    "claude-code",
+    "cursor"
+  ],
+  "dependencies": {}
+}

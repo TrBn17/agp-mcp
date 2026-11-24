@@ -1,0 +1,57 @@
+{
+  "agp-mesh-telemetry": {
+    "enabled": true,
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "python scripts/agp_hook.py session_start",
+        "timeout": 8
+      }
+    ],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python scripts/agp_hook.py pre_invocation",
+        "timeout": 5
+      }
+    ],
+    "PostInvocation": [
+      {
+        "type": "command",
+        "command": "python scripts/agp_hook.py post_invocation",
+        "timeout": 5
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/agp_hook.py pre_tool_use",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/agp_hook.py post_tool_use",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "python scripts/agp_hook.py stop",
+        "timeout": 5
+      }
+    ]
+  }
+}

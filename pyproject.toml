@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agp-mcp"
+version = "2.1.0"
+description = "Standard Serverless MCP Suite for AGP v2.0 Inter-Agent Mesh, Claude-Style Agent Teams, Two-Way Reactive Wakeup & Optional HTML Live Monitor."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "TrBn17" }
+]
+keywords = ["mcp", "model-context-protocol", "agp", "a2a", "multi-agent", "antigravity", "agent-teams", "codemode"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/TrBn17/agp-mcp"
+Repository = "https://github.com/TrBn17/agp-mcp"
+Issues = "https://github.com/TrBn17/agp-mcp/issues"
+
+[project.scripts]
+agp-mcp = "agp.mcp_server:main"
+agp-monitor = "agp.broker:main"
+agp-listen = "agp.listen:main"
+agp-hook = "agp.hook_runner:main"
+agp-worker = "agp.worker:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["agp*"]

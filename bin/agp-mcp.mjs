@@ -112,12 +112,18 @@ function copyDirClean(src, dst) {
 }
 
 function runAgyCommand(args) {
-  const res = spawnSync("agy", args, {
+  let res = spawnSync("agy", args, {
     stdio: "pipe",
     encoding: "utf-8",
-    shell: process.platform === "win32",
     windowsHide: true,
   });
+  if (res.error && process.platform === "win32") {
+    res = spawnSync("agy.cmd", args, {
+      stdio: "pipe",
+      encoding: "utf-8",
+      windowsHide: true,
+    });
+  }
   return {
     ok: !res.error && res.status === 0,
     stdout: (res.stdout || "").trim(),
@@ -158,9 +164,17 @@ function installPlugin(args) {
     process.exit(1);
   }
 
-  // Remove old target cleanly (handles junctions/symlinks too)
+  // Overwrite in-place cleanly (Windows returns EPERM if removing a plugin directory
+  // that an active Antigravity session currently has open).
   if (fs.existsSync(targetDir)) {
-    fs.rmSync(targetDir, { recursive: true, force: true });
+    try {
+      const st = fs.lstatSync(targetDir);
+      if (st.isSymbolicLink()) {
+        fs.rmSync(targetDir, { recursive: true, force: true });
+      }
+    } catch {
+      // Proceed with in-place overwrite
+    }
   }
   copyDirClean(srcPlugin, targetDir);
 

@@ -3,7 +3,7 @@
 Runs the full AGP v2.1 + Agent Teams MCP server directly in-process over stdio against shared
 SQLite WAL (`~/.gemini/agp/agp.db`) and `~/.gemini/agp/teams/` — NO HTTP broker server is
 spawned and NO browser window is opened. Opening the Monitor UI (`agp-monitor` /
-`npx -y github:TrBn17/agp-mcp monitor`) is completely optional and only for viewing the dashboard.
+`npx -y agp-mcp monitor`) is completely optional and only for viewing the dashboard.
 """
 
 from __future__ import annotations

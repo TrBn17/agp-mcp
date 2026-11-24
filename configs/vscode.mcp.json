@@ -5,7 +5,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "github:TrBn17/agp-mcp"
+        "agp-mcp"
       ]
     }
   }

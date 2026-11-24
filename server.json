@@ -16,8 +16,8 @@
       "registry": "npm",
       "name": "agp-mcp",
       "version": "2.1.0",
-      "npx": "npx -y github:TrBn17/agp-mcp",
-      "codemode": "npx -y github:TrBn17/agp-mcp --codemode"
+      "npx": "npx -y agp-mcp",
+      "codemode": "npx -y agp-mcp --codemode"
     },
     {
       "registry": "pypi",
@@ -30,8 +30,8 @@
       "type": "stdio",
       "default": true,
       "command": "npx",
-      "args": ["-y", "github:TrBn17/agp-mcp"],
-      "codemodeArgs": ["-y", "github:TrBn17/agp-mcp", "--codemode"],
+      "args": ["-y", "agp-mcp"],
+      "codemodeArgs": ["-y", "agp-mcp", "--codemode"],
       "requiresDaemon": false
     },
     {
@@ -39,7 +39,7 @@
       "default": false,
       "url": "http://127.0.0.1:47821/mcp",
       "codemodeUrl": "http://127.0.0.1:47821/mcp?codemode=true",
-      "note": "Optional — enabled when running `npx -y github:TrBn17/agp-mcp monitor` to view the Live Monitor UI or expose the A2A v1.0 gateway."
+      "note": "Optional — enabled when running `npx -y agp-mcp monitor` to view the Live Monitor UI or expose the A2A v1.0 gateway."
     }
   ],
   "capabilities": {
@@ -70,5 +70,5 @@
     "externalDependencies": 0
   },
   "stateDirectory": "~/.gemini/agp",
-  "optionalUiCommand": "npx -y github:TrBn17/agp-mcp monitor"
+  "optionalUiCommand": "npx -y agp-mcp monitor"
 }

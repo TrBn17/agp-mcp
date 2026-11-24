@@ -210,7 +210,7 @@ def build_client_config(
     client: str = "generic",
     use_installed_bin: bool = False,
     codemode: bool = False,
-    npx_spec: str = "github:TrBn17/agp-mcp",
+    npx_spec: str = "agp-mcp",
 ) -> Dict[str, Any]:
     """Generate standard copy-paste-ready MCP client config JSON for any major MCP host."""
     extra_args = ["--codemode"] if codemode else []
@@ -299,7 +299,7 @@ def run_doctor(data_dir: Path = AGP_DATA_DIR) -> Dict[str, Any]:
         "optional_monitor_ui": {
             "running": monitor_running,
             "url": f"http://{DEFAULT_HOST}:{DEFAULT_PORT}" if monitor_running else "",
-            "note": "Optional — start via `npx -y github:TrBn17/agp-mcp monitor` or `agp-monitor` only when viewing UI.",
+            "note": "Optional — start via `npx -y agp-mcp monitor` or `agp-monitor` only when viewing UI.",
         },
     }
 

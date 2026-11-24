@@ -12,7 +12,7 @@ description: Complete playbook for serverless AGP v2.1 MCP inter-agent collabora
 1. **Active Turn (Automatic Mid-Turn Delivery)**:
    - `PreInvocation`, `PostInvocation`, and `Stop` hooks automatically drain **both** AGP SQLite messages (24h TTL) and Team mailboxes, injecting them with exact `[REPLY ROUTING]` calls.
 2. **Idle Interactive Session (Zero-Token Reactive Listener — `agp.listen`)**:
-   - Launch the `listen_command` returned by `SessionStart` / `agp_status` / `team_join` (e.g. `npx -y github:TrBn17/agp-mcp listen --agent <your_agent_uri>` or `agp-listen --agent <your_agent_uri>`) via `run_command` (`WaitMsBeforeAsync=500`, `IsDaemon=false`) and end your turn.
+   - Launch the `listen_command` returned by `SessionStart` / `agp_status` / `team_join` (e.g. `npx -y agp-mcp listen --agent <your_agent_uri>` or `agp-listen --agent <your_agent_uri>`) via `run_command` (`WaitMsBeforeAsync=500`, `IsDaemon=false`) and end your turn.
    - Consumes **0 LLM tokens** while waiting; watches BOTH direct AGP messages AND every Team you are joined to (even teams created later!).
    - Exits with the incoming messages the instant a peer writes -> Antigravity Reactive Wakeup wakes your live interactive session immediately!
 3. **Autonomous / Detached CLI Teammates (`team_spawn` / `wakeup_mode='auto_cli'` / `wake_mode='force_cli'`)**:

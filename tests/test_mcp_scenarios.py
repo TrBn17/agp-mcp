@@ -1108,7 +1108,7 @@ class TestServerlessMCPScenarios(unittest.TestCase):
         self.assertEqual(cfg.returncode, 0, msg=cfg.stderr)
         cfg_json = json.loads(cfg.stdout)
         self.assertEqual(cfg_json["mcpServers"]["agp-broker"]["command"], "npx")
-        self.assertIn("--codemode", cfg_json["mcpServers"]["agp-broker"]["args"])
+        self.assertEqual(cfg_json["mcpServers"]["agp-broker"]["args"], ["-y", "agp-mcp", "--codemode"])
 
         # 2. Live stdio JSON-RPC session through `node bin/agp-mcp.mjs --codemode` (ZERO stdout noise!)
         node_cli = StdioMCPClient(self.data_dir, use_node_cli=True, extra_args=["--codemode"])

@@ -233,10 +233,10 @@ function installPlugin(args) {
     console.log(`  agy CLI : enabled plugin 'agp-mesh' & registered MCP 'agp-broker'`);
   } else if (!skipAgy) {
     console.log(`  agy CLI : not found on PATH — add the MCP server to your client config via:`);
-    console.log(`            npx -y github:TrBn17/agp-mcp config${codemode ? " --codemode" : ""}`);
+    console.log(`            npx -y agp-mcp config${codemode ? " --codemode" : ""}`);
   }
   console.log(`[agp-mcp] Ready! Sessions communicate silently in the background with no HTTP daemon needed.`);
-  console.log(`[agp-mcp] Optional UI: npx -y github:TrBn17/agp-mcp monitor`);
+  console.log(`[agp-mcp] Optional UI: npx -y agp-mcp monitor`);
 }
 
 function uninstallPlugin(args) {

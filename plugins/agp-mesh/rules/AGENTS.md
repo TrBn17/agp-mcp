@@ -6,7 +6,7 @@ This session is connected to `agp-broker` (standard serverless stdio MCP — run
 
 - **ALWAYS reply when you receive a message**: Whenever `<agp_untrusted_message>` or `<team_message>` is injected into your context (via `PreInvocation`, `PostInvocation`, `Stop`, `agp.listen`, or `agp_inbox`), ALWAYS acknowledge/reply back to the exact sender/team using the exact `team_send(...)` or `agp_send(..., in_reply_to=...)` command shown in the `[REPLY ROUTING]` block!
 - **Open your zero-token receive channel when collaborating or joined to a team**:
-  - After calling `team_create`, `team_join`, `agp_register`, or `agp_send` when waiting for a peer reply while idle, launch the zero-token reactive listener via `run_command` (`WaitMsBeforeAsync=500`, `IsDaemon=false`) using the `listen_command` returned by `SessionStart` / `agp_status` / `agp_register` / `team_join` (e.g. `npx -y github:TrBn17/agp-mcp listen --agent <your_agent_uri>` or `agp-listen --agent <your_agent_uri>`), then **end your turn**!
+  - After calling `team_create`, `team_join`, `agp_register`, or `agp_send` when waiting for a peer reply while idle, launch the zero-token reactive listener via `run_command` (`WaitMsBeforeAsync=500`, `IsDaemon=false`) using the `listen_command` returned by `SessionStart` / `agp_status` / `agp_register` / `team_join` (e.g. `npx -y agp-mcp listen --agent <your_agent_uri>` or `agp-listen --agent <your_agent_uri>`), then **end your turn**!
   - While sleeping it costs **0 LLM tokens** and wakes you instantaneously the millisecond a peer sends a message or adds you to a team!
 - **NEVER loop polling `agp_inbox` / `team_inbox` blindly**:
   - Every `agp_send`, `agp_ask`, and `team_send` returns a `delivery` object with `will_auto_receive`.

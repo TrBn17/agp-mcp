@@ -23,7 +23,7 @@ Add to your MCP client configuration (Antigravity, Claude Desktop, Claude Code, 
   "mcpServers": {
     "agp-broker": {
       "command": "npx",
-      "args": ["-y", "github:TrBn17/agp-mcp"]
+      "args": ["-y", "agp-mcp"]
     }
   }
 }
@@ -37,7 +37,7 @@ For **VS Code** (`.vscode/mcp.json`):
     "agp-broker": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "github:TrBn17/agp-mcp"]
+      "args": ["-y", "agp-mcp"]
     }
   }
 }
@@ -46,8 +46,8 @@ For **VS Code** (`.vscode/mcp.json`):
 Or generate a client-specific config directly:
 
 ```bash
-npx -y github:TrBn17/agp-mcp config cursor
-npx -y github:TrBn17/agp-mcp config vscode --codemode
+npx -y agp-mcp config cursor
+npx -y agp-mcp config vscode --codemode
 ```
 
 ### Option 2: Antigravity Auto-Hooks & Offline Runtime (One Command)
@@ -55,9 +55,9 @@ npx -y github:TrBn17/agp-mcp config vscode --codemode
 To let live Antigravity (`agy`) sessions automatically receive incoming messages mid-turn (`PreInvocation`, `PostInvocation`, `Stop`), register identity on startup (`SessionStart`), and enforce workspace file write leases (`PreToolUse`):
 
 ```bash
-npx -y github:TrBn17/agp-mcp install
+npx -y agp-mcp install
 # Or enable 4-tool Code Mode by default:
-npx -y github:TrBn17/agp-mcp install --codemode
+npx -y agp-mcp install --codemode
 ```
 
 This installs the `agp-mesh` plugin into `~/.gemini/config/plugins/agp-mesh`, bundles the offline zero-dependency Python runtime inside it so hooks execute in <40ms even without network access, and wires `agy` automatically.
@@ -66,7 +66,7 @@ This installs the `agp-mesh` plugin into `~/.gemini/config/plugins/agp-mesh`, bu
 
 ```bash
 # Node / npm (requires Node 18+ and Python 3.11+)
-npm install -g github:TrBn17/agp-mcp
+npm install -g agp-mcp
 agp-mcp doctor
 
 # Or pure Python (no Node required)
@@ -79,7 +79,7 @@ agp-mcp --doctor
 Opening the Monitor UI is **strictly optional** — background MCP works identically whether the UI is open or closed. Start it only when you want to inspect sessions, teams, token usage, traces, or expose Streamable HTTP `/mcp` + A2A v1.0:
 
 ```bash
-npx -y github:TrBn17/agp-mcp monitor
+npx -y agp-mcp monitor
 # Dashboard: http://127.0.0.1:47821
 # Streamable HTTP MCP: http://127.0.0.1:47821/mcp
 # Streamable HTTP Code Mode: http://127.0.0.1:47821/mcp?codemode=true
@@ -94,7 +94,7 @@ Enable ultra-compact 4-tool **Code Mode** (`whoami`, `docs`, `search`, `execute`
   "mcpServers": {
     "agp-broker": {
       "command": "npx",
-      "args": ["-y", "github:TrBn17/agp-mcp", "--codemode"]
+      "args": ["-y", "agp-mcp", "--codemode"]
     }
   }
 }
@@ -220,9 +220,9 @@ Example multi-step Code Mode `execute` call:
 The web dashboard is purely a read/control companion over the exact same `~/.gemini/agp/` SQLite WAL and Team mailboxes. Agents keep working seamlessly when you close it.
 
 ```bash
-npx -y github:TrBn17/agp-mcp monitor
+npx -y agp-mcp monitor
 # Or without auto-opening a browser tab:
-npx -y github:TrBn17/agp-mcp monitor --no-browser
+npx -y agp-mcp monitor --no-browser
 ```
 
 ## Development

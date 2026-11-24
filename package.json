@@ -7,7 +7,7 @@
   "author": "TrBn17",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TrBn17/agp-mcp.git"
+    "url": "git+https://github.com/TrBn17/agp-mcp.git"
   },
   "homepage": "https://github.com/TrBn17/agp-mcp#readme",
   "bugs": {
@@ -17,9 +17,9 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "agp-mcp": "./bin/agp-mcp.mjs",
-    "agp-monitor": "./bin/agp-monitor.mjs",
-    "agp-listen": "./bin/agp-listen.mjs"
+    "agp-mcp": "bin/agp-mcp.mjs",
+    "agp-monitor": "bin/agp-monitor.mjs",
+    "agp-listen": "bin/agp-listen.mjs"
   },
   "files": [
     "bin/",
